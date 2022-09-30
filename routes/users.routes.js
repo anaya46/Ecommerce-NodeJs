@@ -2,11 +2,13 @@ const express = require('express');
 
 // Controllers
 const {
-	getAllUsers,
 	createUser,
+	login,
+	getProductsByUser,
 	updateUser,
 	deleteUser,
-	login,
+	getAllOrders,
+	getOneOrder
 } = require('../controllers/users.controller');
 
 // Middlewares
@@ -28,16 +30,15 @@ usersRouter.post('/login', login);
 
 // Protecting below endpoints
 usersRouter.use(protectSession);
-
-usersRouter.get('/me');
+usersRouter.get('/me', getProductsByUser);
 
 usersRouter.patch('/:id', userExists, protectUsersAccount, updateUser);
 
 usersRouter.delete('/:id', userExists, protectUsersAccount, deleteUser);
 
-usersRouter.get('/orders');
+usersRouter.get('/orders', getAllOrders);
 
-usersRouter.get('/orders/:id');
+usersRouter.get('/orders/:id', getOneOrder);
 
 
 module.exports = { usersRouter };

@@ -4,6 +4,11 @@ const dotenv = require('dotenv');
 
 // Models
 const { User } = require('../models/user.model');
+const { Product } = require('../models/product.model');
+const { Order } = require('../models/order.model');
+const { Cart } = require('../models/cart.model');
+const { ProductInCart } = require('../models/productInCart.model');
+
 
 // Utils
 const { catchAsync } = require('../utils/catchAsync.util');
@@ -54,11 +59,24 @@ const createUser = catchAsync(async (req, res, next) => {
 	});
 });
 
+const getProductsByUser = catchAsync(async (req, res, next) => {
+	const { sessionUser } = req
+	const products = await Product.findAll({
+		where: { userId: sessionUser.id },
+
+	});
+
+	res.status(200).json({
+		status: 'success',
+		data: { products },
+	});
+});
+
 const updateUser = catchAsync(async (req, res, next) => {
-	const { name } = req.body;
+	const { username, email } = req.body;
 	const { user } = req;
 
-	await user.update({ name });
+	await user.update({ username, email });
 
 	res.status(200).json({
 		status: 'success',
@@ -69,9 +87,12 @@ const updateUser = catchAsync(async (req, res, next) => {
 const deleteUser = catchAsync(async (req, res, next) => {
 	const { user } = req;
 
-	await user.update({ status: 'deleted' });
+	await user.update({ status: 'disabled' });
 
-	res.status(204).json({ status: 'success' });
+	res.status(204).json({
+		status: 'success',
+		data: { user },
+	});
 });
 
 const login = catchAsync(async (req, res, next) => {
@@ -102,10 +123,47 @@ const login = catchAsync(async (req, res, next) => {
 	});
 });
 
+const getAllOrders = catchAsync(async (req, res, next) => {
+	const { sessionUser } = req
+	const orders = await Order.findAll({
+		where: { userId: sessionUser.id },
+		include: [{ model: Cart, include: { model: ProductInCart, where: { status: 'purchased' } } }],
+	});
+
+	res.status(200).json({
+		status: 'success',
+		data: { orders },
+	});
+});
+const getOneOrder = catchAsync(async (req, res, next) => {
+	const { sessionUser } = req
+
+	const orders = await Order.findOne({
+		where: { userId: sessionUser.id },
+		include: [{ model: Cart, include: { model: ProductInCart, where: { status: 'purchased' } } }],
+	})
+
+	if (!orders) {
+		return res.status(200).json({
+			status: "success",
+			message: "order no found",
+		});
+	}
+
+	res.status(200).json({
+		status: 'success',
+		data: { orders },
+	});
+});
+
+
+
 module.exports = {
-	getAllUsers,
 	createUser,
+	login,
+	getProductsByUser,
 	updateUser,
 	deleteUser,
-	login,
+	getAllOrders,
+	getOneOrder
 };
