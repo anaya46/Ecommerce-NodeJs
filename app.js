@@ -2,10 +2,7 @@ const express = require('express');
 
 // Routers
 const { usersRouter } = require('./routes/users.routes');
-<<<<<<< HEAD
-=======
 const { cartsRouter } = require('./routes/carts.routes');
->>>>>>> 1e8d4dd3fbafe3d5131e914c15f97102409a2c29
 const { productsRouter } = require('./routes/products.routes');
 
 // Controllers
