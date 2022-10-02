@@ -8,22 +8,43 @@ const { catchAsync } = require('../utils/catchAsync.util');
 const { AppError } = require('../utils/appError.util');
 
 const checkQuantityProduct = catchAsync(async (req, res, next) => {
-    //const { id } = req.params;
+    const { quantity } = req;
 
     //const quantity = await Product.findOne({
     // where: { },
     // });
 
 
-    if (quantity >= ProductInCart.quantity) {
-        return next(new AppError('User not found', 404));
+    if (quantity >= Product.quantity) {
+        return next(new AppError('Quantity is not available', 404));
     }
 
     // req.anyPropName = 'anyValue'
-    req.user = user;
+    req.quantity = quantity;
     next();
 });
 
+const productExists = catchAsync(async (req, res, next) => {
+    const { id } = req.params;
+
+    const product = await Product.findOne({
+        where: { id },
+    });
+
+    // If user doesn't exist, send error message
+    if (product) {
+        return next(new AppError('Product has already been added', 404));
+    }
+
+    // req.anyPropName = 'anyValue'
+    req.product = product
+    next();
+});
+
+
+
+
 module.exports = {
     checkQuantityProduct,
+    productExists
 };

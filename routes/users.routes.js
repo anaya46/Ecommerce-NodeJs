@@ -8,7 +8,8 @@ const {
 	updateUser,
 	deleteUser,
 	getAllOrders,
-	getOneOrder
+	getOneOrder,
+	getAllUsers
 } = require('../controllers/users.controller');
 
 // Middlewares
@@ -26,7 +27,9 @@ const usersRouter = express.Router();
 
 usersRouter.post('/', createUserValidators, createUser);
 
+
 usersRouter.post('/login', login);
+usersRouter.get('/', getAllUsers);
 
 // Protecting below endpoints
 usersRouter.use(protectSession);

@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 // Models
 const { Cart } = require('../models/cart.model');
 const { ProductInCart } = require('../models/productInCart.model');
+const { Product } = require('../models/product.model');
 
 // Utils
 const { catchAsync } = require('../utils/catchAsync.util');
@@ -20,10 +21,10 @@ const createCart = catchAsync(async (req, res, next) => {
         where: { userId: sessionUser.id },
     })
 
-    if (cart || (quantity >= ProductInCart.quantity)) {
+    if (cart) {
         return res.status(200).json({
             status: "success",
-            message: "You have other cart active or quantity is not available",
+            message: "You have other cart active",
         });
     }
 
@@ -32,6 +33,22 @@ const createCart = catchAsync(async (req, res, next) => {
     res.status(200).json({
         status: 'success',
         data: { newCart },
+
+    });
+
+
+});
+
+const getAllCarts = catchAsync(async (req, res, next) => {
+    const carts = await Cart.findAll({
+        where: { status: 'active' },
+
+
+    });
+
+    res.status(200).json({
+        status: 'success',
+        data: { carts },
     });
 });
 
@@ -39,8 +56,8 @@ const createCart = catchAsync(async (req, res, next) => {
 
 
 
-
 module.exports = {
     createCart,
+    getAllCarts,
 
 };

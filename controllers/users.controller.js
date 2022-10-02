@@ -161,6 +161,7 @@ const getOneOrder = catchAsync(async (req, res, next) => {
 
 module.exports = {
 	createUser,
+	getAllUsers,
 	login,
 	getProductsByUser,
 	updateUser,
