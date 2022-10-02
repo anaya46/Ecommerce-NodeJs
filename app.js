@@ -20,9 +20,6 @@ app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/cart', cartsRouter);
 app.use('/api/v1/products', productsRouter);
 
-
-app.use('/api/v1/products', productsRouter)
-
 // Global error handler
 app.use(globalErrorHandler);
 

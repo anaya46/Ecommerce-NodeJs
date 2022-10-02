@@ -16,6 +16,6 @@ const{
 const productsRouter = express.Router()
 
 productsRouter.post('/categories', protectSession, createCategory)
-productsRouter.post('/', createProduct);
+productsRouter.post('/', protectSession, createProduct);
 
 module.exports = { productsRouter }

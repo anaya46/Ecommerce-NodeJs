@@ -135,6 +135,7 @@ const getAllOrders = catchAsync(async (req, res, next) => {
 		data: { orders },
 	});
 });
+
 const getOneOrder = catchAsync(async (req, res, next) => {
 	const { sessionUser } = req
 

@@ -30,6 +30,7 @@ usersRouter.post('/login', login);
 
 // Protecting below endpoints
 usersRouter.use(protectSession);
+
 usersRouter.get('/me', getProductsByUser);
 
 usersRouter.patch('/:id', userExists, protectUsersAccount, updateUser);
