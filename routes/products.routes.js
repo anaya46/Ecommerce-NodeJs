@@ -1,8 +1,10 @@
+
 const express = require('express')
 
 //Controllers
 const {
-    createCategory
+    createCategory,
+    createProduct
 } = require('../controllers/products.controller')
 
 //Middlewares
@@ -14,5 +16,6 @@ const{
 const productsRouter = express.Router()
 
 productsRouter.post('/categories', protectSession, createCategory)
+productsRouter.post('/', createProduct);
 
 module.exports = { productsRouter }

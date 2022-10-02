@@ -2,10 +2,15 @@ const express = require('express');
 
 // Routers
 const { usersRouter } = require('./routes/users.routes');
+<<<<<<< HEAD
+=======
+const { cartsRouter } = require('./routes/carts.routes');
+>>>>>>> 1e8d4dd3fbafe3d5131e914c15f97102409a2c29
 const { productsRouter } = require('./routes/products.routes');
 
 // Controllers
 const { globalErrorHandler } = require('./controllers/error.controller');
+
 
 // Init our Express app
 const app = express();
@@ -15,6 +20,9 @@ app.use(express.json());
 
 // Define endpoints
 app.use('/api/v1/users', usersRouter);
+app.use('/api/v1/cart', cartsRouter);
+app.use('/api/v1/products', productsRouter);
+
 
 app.use('/api/v1/products', productsRouter)
 
