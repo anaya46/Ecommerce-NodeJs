@@ -36,5 +36,52 @@ const createUserValidators = [
 		.withMessage('Password must be at least 8 characters'),
 	checkValidations,
 ];
+const createProductValidators = [
+	body('title')
+		.isString()
+		.withMessage('Title must be a string')
+		.notEmpty()
+		.withMessage('Title cannot be empty')
+		.isLength({ min: 3 })
+		.withMessage('Title must be at least 3 characters'),
+	body('description')
+		.isString()
+		.withMessage('Description must be a string')
+		.notEmpty()
+		.withMessage('Description cannot be empty')
+		.isLength({ min: 3 })
+		.withMessage('Description must be at least 3 characters'),
+	body('price')
+		.isNumeric()
+		.withMessage('Price must be a integer')
+		.notEmpty()
+		.withMessage('Price cannot be empty'),
+	body('categoryId')
+		.isInt({ min: 1 })
+		.withMessage('CategoryId must be a integer.')
+		.notEmpty()
+		.withMessage('CategoryId cannot be empty'),
+	body('quantity')
+		.isInt({ min: 1 })
+		.withMessage('Quantity must be a integer.')
+		.notEmpty()
+		.withMessage('Quantity cannot be empty'),
+	checkValidations,
+];
 
-module.exports = { createUserValidators };
+const createCategoryValidators = [
+	body('name')
+		.isString()
+		.withMessage('Name must be a string')
+		.notEmpty()
+		.withMessage('Name cannot be empty')
+		.isLength({ min: 3 }),
+	checkValidations
+]
+
+
+module.exports = {
+	createUserValidators,
+	createProductValidators,
+	createCategoryValidators
+};

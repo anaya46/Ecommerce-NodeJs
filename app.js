@@ -3,7 +3,7 @@ const express = require('express');
 // Routers
 const { usersRouter } = require('./routes/users.routes');
 const { cartsRouter } = require('./routes/carts.routes');
-const { productsRouter } = require('./routes/products.routes');
+const { productsRouter } = require("./routes/products.routes");
 
 // Controllers
 const { globalErrorHandler } = require('./controllers/error.controller');

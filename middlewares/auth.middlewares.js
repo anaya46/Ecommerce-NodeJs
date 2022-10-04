@@ -72,8 +72,37 @@ const protectAdmin = (req, res, next) => {
 	next();
 };
 
+const protectProduct = (req, res, next) => {
+	const { sessionUser, product } = req;
+	// const { id } = req.params;
+
+	// If the users (ids) don't match, send an error, otherwise continue
+	if (sessionUser.id !== product.userId) {
+		return next(new AppError('You are not the owner of this account.', 403));
+	}
+
+	// If the ids match, grant access
+	next();
+};
+
+const protectCart = (req, res, next) => {
+	const { sessionUser, cart } = req;
+
+
+	// If the users (ids) don't match, send an error, otherwise continue
+	if (sessionUser.id !== cart.userId) {
+		return next(new AppError('You are not the owner of this account.', 403));
+	}
+
+	// If the ids match, grant access
+	next();
+}
+
 module.exports = {
 	protectSession,
 	protectUsersAccount,
 	protectAdmin,
+	protectProduct,
+	protectCart,
+
 };

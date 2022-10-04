@@ -1,24 +1,25 @@
 const express = require('express');
 
 //Middlewares
-const { protectSession } = require('../middlewares/auth.middlewares');
+const { protectSession, protectCart } = require('../middlewares/auth.middlewares');
+const { cartExists } = require('../middlewares/carts.middlewares');
 
 // Controllers
 const {
-    createCart,
+    addProduct,
     getAllCarts,
+    updateCart,
 
 
 } = require('../controllers/carts.controller');
-const { checkQuantityProduct,
-    productExists,
-} = require('../middlewares/carts.middlewares');
+
 
 const cartsRouter = express.Router();
 
 cartsRouter.use(protectSession);
-cartsRouter.post('/add-product', productExists, checkQuantityProduct, createCart);
+cartsRouter.post('/add-product', addProduct);
 cartsRouter.get('/', getAllCarts);
+cartsRouter.patch('/update-cart', cartExists, protectCart, updateCart);
 
 
 
