@@ -6,11 +6,10 @@ const { catchAsync } = require('../utils/catchAsync.util');
 const { AppError } = require('../utils/appError.util');
 
 const userExists = catchAsync(async (req, res, next) => {
-	const { id } = req.params;
-
+	const { sessionUser } = req
 	const user = await User.findOne({
 		attributes: { exclude: ['password'] },
-		where: { id },
+		where: { id: sessionUser.id },
 	});
 
 	// If user doesn't exist, send error message
