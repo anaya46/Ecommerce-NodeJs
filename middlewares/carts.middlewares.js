@@ -5,6 +5,7 @@ const { AppError } = require('../utils/appError.util');
 // Models
 const { ProductInCart } = require('../models/productInCart.model');
 const { Cart } = require('../models/cart.model');
+const { Product } = require('../models/productInCart.model');
 
 
 
@@ -22,7 +23,7 @@ const cartExists = catchAsync(async (req, res, next) => {
     });
 
     if (!cart) {
-        return next(new AppError('There are not exist cart', 400));
+        return next(new AppError('This cart does not exist', 400));
     }
 
     req.cart = cart;

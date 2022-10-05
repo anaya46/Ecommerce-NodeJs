@@ -31,6 +31,11 @@ const {
     protectProduct
 } = require('../middlewares/auth.middlewares')
 
+//Utils
+const {
+    upload
+} = require('../utils/multer.util')
+
 const productsRouter = express.Router()
 
 productsRouter.get('/categories', getCategoriesAll)
@@ -46,7 +51,7 @@ productsRouter.post('/categories', createCategoryValidators, createCategory)
 
 productsRouter.patch('/categories/:id', categoryExists, updateCategory)
 
-productsRouter.post('/', createProductValidators, createProduct);
+productsRouter.post('/', upload.array('productImg', 5), createProductValidators, createProduct);
 
 productsRouter.patch('/:id', productExists, protectProduct, updateProduct)
 

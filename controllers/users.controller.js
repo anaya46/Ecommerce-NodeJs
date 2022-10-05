@@ -125,10 +125,14 @@ const login = catchAsync(async (req, res, next) => {
 
 const getAllOrders = catchAsync(async (req, res, next) => {
 	const { sessionUser } = req
+
+	console.log(sessionUser.id)
+
 	const orders = await Order.findAll({
 		where: { userId: sessionUser.id },
 		include: [{ model: Cart, include: { model: ProductInCart, where: { status: 'purchased' } } }],
 	});
+	console.log(orders)
 
 	res.status(200).json({
 		status: 'success',
@@ -137,10 +141,10 @@ const getAllOrders = catchAsync(async (req, res, next) => {
 });
 
 const getOneOrder = catchAsync(async (req, res, next) => {
-	const { sessionUser } = req
+	const { id } = req.params
 
 	const orders = await Order.findOne({
-		where: { userId: sessionUser.id },
+		where: { id },
 		include: [{ model: Cart, include: { model: ProductInCart, where: { status: 'purchased' } } }],
 	})
 
