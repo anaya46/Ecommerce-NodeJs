@@ -89,7 +89,7 @@ const deleteUser = catchAsync(async (req, res, next) => {
 
 	await user.update({ status: 'disabled' });
 
-	res.status(204).json({
+	res.status(200).json({
 		status: 'success',
 		data: { user },
 	});
