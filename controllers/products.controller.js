@@ -109,7 +109,16 @@ const getProduct = catchAsync(async (req, res, next) => {
                 model: Category,
                 attributes: ['id', 'name']
             }
-        ]
+        ],
+        include: [
+            {
+                model: ProductImgs,
+                required: false,
+                where: { status: 'active' },
+                attributes: ['id', 'imgUrl'],
+            },
+            { model: Category, attributes: ['id', 'name'] },
+        ],
     })
     res.status(200).json({
         status: 'success',
